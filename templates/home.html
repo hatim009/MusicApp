@@ -1,0 +1,93 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>
+		Free Online Songs
+	</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="../static/myScript.js"></script>
+
+	<script>
+		function getData(callback){
+			$.ajax({
+				url : '/songsList',
+				data : {},
+				type : 'POST',
+				success : callback,
+				error : function(error){
+					console.log(error);
+				}
+			});
+		}
+		var dict;
+		getData(function(response){
+			dict = JSON.parse(response);
+
+			for(i=0; i<dict.length ; i++){
+				var songId = dict[i][0]
+				var songName = dict[i][1]
+				var upvotes = dict[i][2]
+				var downvotes = dict[i][3]
+				var li = $('<li>').attr('class','song-'+songId)
+							.append(
+								$('<div>').attr({id:'div1', style:'float:left;'}).append($('<strong>')),
+								$('<div>')
+								 .append(
+								 	$('<input>').attr({ id:'ip-1-'+songId, type:'submit', value:'upvote | '+upvotes}),
+								 	$('<input>').attr({ id:'ip-2-'+songId, type:'submit', value:'downvote | '+downvotes})
+							 	)
+							);
+
+				var list = $(li).clone();
+				$(list).find('strong').html(songName + "&nbsp;&nbsp;");
+				$('#songsList').append(list);
+			}
+		
+		});
+	</script>
+
+</head>
+
+<body style = "background-color:#00FFFF;">
+
+	<div style = "height: 150px; background-color:#FFFF00;">
+			<div style = "float:left; padding:30px; padding-left:50px;">
+				<h3> Hi {{name}} !! <h3>
+				<button id='logout-btn'>Log Out</button>
+			</div>
+
+			<div style = "float:right; padding-right: 50px;">
+				<h1>Welcome to Music App !!</h1>
+				<h1>Listen Free Songs Here.</h1>
+			</div>
+	</div>
+
+	<div style='height:100px:'>
+		<form action="playSongs" method="POST">
+			<input id="play-songs-btn" style="padding:30px;" type='submit' value='Play Songs'>
+		</form>
+		<form action="upload" method="POST" enctype="multipart/form-data">
+			<div style="width:70px; padding-left:40%; height:80px; padding-top:20px;">
+        		<input type="file" name="file"><br>
+        		<input type="submit" value="Upload">
+        	</div>
+      	</form>
+	</div>
+
+	<div style="padding-left:30%">
+		<ul id='songsList'>
+		</ul>
+	</div>
+
+
+	{% if status %}
+    	<script>
+      		alert('song uploaded successfully')
+    	</script>
+    {% endif %}
+
+</body>
+
+
+</html>

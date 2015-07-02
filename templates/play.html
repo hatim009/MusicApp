@@ -1,0 +1,44 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>
+		Free Online Songs
+	</title>
+ 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="../static/myScript.js"></script>
+	<script>
+		var counter = 1;
+	</script>
+</head>
+
+<body style = "background-color:#00FFFF;">
+
+	<div style = "height: 150px; background-color:#FFFF00;">
+			<div style = "float:left; padding:30px; padding-left:50px;">
+				<h3> Hi {{name}} !! <h3>
+				<button id='logout-btn'>Log Out</button>
+			</div>
+
+			<div style = "float:right; padding-right: 50px;">
+				<h1>Welcome to Music App !!</h1>
+				<h1>Listen Free Songs Here.</h1>
+			</div>
+	</div>
+
+	<form action='home' methods='POST'>
+		<input type='submit' id='back-btn' value='BACK'>
+	</form>
+
+	<div align="center" id='audio-div'>
+		<h1>Enjoy the songs</h1>
+		<audio controls autoplay id="my-audio">
+			<source id='song-src' src='/uploads/{{_source}}'>	
+		</audio>
+		<h3 id='song-playing'>Now Playing : {{_source}}</h3>
+	</div>
+</body>
+
+
+</html>
